@@ -19,6 +19,8 @@ if [ -f ${OPENSHIFT_DATA_DIR}/.bash_profile ]; then
 fi
 ```
 
+To make these effective, you should ```soure ~/.bashrc```.
+
 Then, type these on terminal:
 
 ```bash
