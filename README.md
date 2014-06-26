@@ -1,8 +1,8 @@
 Port from openshift
 ========
-Only for ubuntu server, cause we use ```sudo apt-get install``` in build for instance.
+Only for ubuntu server, 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
 
-Add these to your ~/.bashrc
+Firstly, add these to your ~/.bashrc
 
 ```bash
 export OPENSHIFT_DIY_DIR=$HOME
@@ -19,23 +19,22 @@ if [ -f ${OPENSHIFT_DATA_DIR}/.bash_profile ]; then
 fi
 ```
 
-Then, 
+Then, type these on terminal
 
 ```bash
+cd ~
 git clone https://github.com/BullSoft/bullsoft.git
-
 cd bullsoft
-
 cp -r openshift ~/
-
-cd openshift/action_hooks/
-
+cd ~/openshift/action_hooks/
 ./build
 
 ```
 
-Maybe you have to type ```password``` to let it continue.
+      Maybe you have to type ```password``` to let it continue.
 
+
+Finally, the file structure would be like this
 
 ```
 .
