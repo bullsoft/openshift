@@ -3,11 +3,19 @@
 # Exit on first error.
 set -e
 
-# OpenShift sets GIT_DIR to . which terminates pull with an error:
-# Not a git repository: '.'
-unset GIT_DIR
-
 umask 077
+
+
+# Ubuntu only
+sudo apt-get -y install build-essential
+sudo apt-get -y install libssl-dev
+sudo apt-get -y install libcurl4-openssl-dev
+sudo apt-get -y install libxslt-dev
+sudo apt-get -y install libmcrypt-dev
+sudo apt-get -y install libbz2-dev
+sudo apt-get -y install libpng12-dev
+sudo apt-get -y install libjpeg8-dev
+sudo apt-get -y install libreadline-dev
 
 OPENSHIFT_HOOK_DIR=`dirname $0`
 export OPENSHIFT_REPO_DIR=$OPENSHIFT_HOOK_DIR/../../

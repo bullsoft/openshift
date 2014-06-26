@@ -23,10 +23,12 @@ function install_php() {
             --prefix=${ROOT_DIR}/php5 \
             --with-config-file-path=${ROOT_DIR}/etc/php5/ \
             --with-config-file-scan-dir=${ROOT_DIR}/etc/php5/conf.d/ \
+            --with-mcrypt \
             --with-layout=PHP \
             --with-curl \
             --with-pear \
             --with-gd \
+	    --with-jpeg-dir \
             --with-zlib \
             --with-mhash \
             --with-mysql \
