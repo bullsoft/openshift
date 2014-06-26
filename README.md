@@ -19,7 +19,7 @@ if [ -f ${OPENSHIFT_DATA_DIR}/.bash_profile ]; then
 fi
 ```
 
-Then, type these on terminal
+Then, type these on terminal:
 
 ```bash
 cd ~
@@ -34,7 +34,12 @@ cd ~/openshift/action_hooks/
       Maybe you have to type ```password``` to let it continue.
 
 
-Finally, the file structure would be like this
+Finally, type:
+
+```bash
+cp -r ~/bullsoft/wwwroot ~/
+```
+... and the file structure would be like this
 
 ```
 .
