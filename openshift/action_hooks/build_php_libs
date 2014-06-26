@@ -25,7 +25,7 @@ function install_libtool() {
     pushd ${BUILD_DIR}
 
     echo "Downloading ${pkg}."
-    wget --output-document=./${pkg} "http://gnu.xl-mirror.nl/libtool/${pkg}"
+    wget --output-document=./${pkg} "http://mirror.bjtu.edu.cn/gnu/libtool/${pkg}"
 
     echo "Unpacking ${pkg}."
     tar xfz ${pkg}

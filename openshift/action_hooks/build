@@ -5,7 +5,6 @@ set -e
 
 umask 077
 
-
 # Ubuntu only
 sudo apt-get -y install build-essential
 sudo apt-get -y install libssl-dev
@@ -16,15 +15,7 @@ sudo apt-get -y install libbz2-dev
 sudo apt-get -y install libpng12-dev
 sudo apt-get -y install libjpeg8-dev
 sudo apt-get -y install libreadline-dev
-
-OPENSHIFT_HOOK_DIR=`dirname $0`
-export OPENSHIFT_REPO_DIR=$OPENSHIFT_HOOK_DIR/../../
-export OPENSHIFT_DIY_DIR=${1}
-export OPENSHIFT_TMP_DIR=${1}/tmp/
-
-echo $OPENSHIFT_REPO_DIR
-echo $OPENSHIFT_DIY_DIR
-echo $OPENSHIFT_TMP_DIR
+sudo apt-get -y install autoconf
 
 # Load common
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/common
@@ -73,3 +64,5 @@ done
 
 # Check NodeJS
 #check_node
+
+#source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/deploy

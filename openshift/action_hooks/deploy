@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
@@ -12,6 +12,18 @@ TEMPLATE_DIR=${OPENSHIFT_REPO_DIR}/openshift/tmpl
 umask 077
 
 mkdir -p ${BUILD_DIR}
+
+if [ ! -d ${OPENSHIFT_DIY_LOG_DIR} ]; then
+    mkdir -p ${OPENSHIFT_DIY_LOG_DIR}
+fi
+
+if [ ! -d ${OPENSHIFT_DATA_DIR} ]; then
+    mkdir -p ${OPENSHIFT_DATA_DIR}
+fi 
+
+if [ ! -d ${OPENSHIFT_RUN_DIR} ]; then
+    mkdir -p ${OPENSHIFT_RUN_DIR}
+fi 
 
 echo "Pre-processing nginx config."
 cp ${TEMPLATE_DIR}/nginx.conf.tmpl ${BUILD_DIR}/nginx.conf
