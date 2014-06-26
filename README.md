@@ -49,7 +49,6 @@ cp -r ~/bullsoft/wwwroot ~/
 │   ├── access.log
 │   ├── error.log
 │   └── php-fpm.log
-├── openshift -> github/bullsoft/openshift/
 ├── run
 │   ├── nginx.pid
 │   ├── php-fpm.pid
