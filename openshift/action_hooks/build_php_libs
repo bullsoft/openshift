@@ -98,7 +98,7 @@ function install_icu() {
     pushd ${BUILD_DIR}
 
     echo "Downloading ${pkg}."
-    wget --output-document=./${pkg} http://download.icu-project.org/files/icu4c/${ICU_VERSION}/${pkg}
+    wget --output-document=./${pkg} http://bcs.duapp.com/instcar-vedio/icu4c/${pkg}
 
     echo "Unpacking ${pkg}."
     tar xfz ${pkg}

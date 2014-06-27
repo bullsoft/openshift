@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function install_node() {
     local pkg=node-v${NODE_VERSION}.tar.gz
@@ -59,7 +59,7 @@ function check_node() {
             install_node_proxy '/usr/bin/npm'
             return 0
         fi
-        echo "NodeJs local old, version: ${node_version}."
+        echo "NodeJs local old, version: master
     fi
 
     if [[ ! -e  ${node_bin} ]]; then

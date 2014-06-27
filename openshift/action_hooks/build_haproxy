@@ -1,0 +1,59 @@
+#!/bin/bash
+
+function install_haproxy() {
+    local pkg=haproxy-${NODE_VERSION}.tar.gz
+
+    mkdir -p ${BUILD_DIR}
+    pushd ${BUILD_DIR}
+
+    echo "Downloading ${pkg}."
+    wget http://bcs.duapp.com/instcar-vedio/haproxy/${pkg}
+
+    echo "Unpacking ${pkg}."
+    tar xfz ${pkg}
+    pushd ${pkg}
+
+    echo "Configuring HaProxy."
+    make \
+       TARGET=linux26
+
+    echo "Compiling NodeJs."
+    make install \
+       TARGET=${ROOT_DIR}/haproxy/
+
+    echo "Cleaning build directory."
+    popd
+    popd
+    rm -rf ${BUILD_DIR}
+}
+
+function check_haproxy() {
+    local local_bin=/usr/bin/haproxy
+    local haproxy_bin=${ROOT_DIR}/haproxy/sbin/haproxy
+    local haproxy_version=`${local_bin} -v | grep -Eo '[0-9]\.[0-9]\.[0-9]'`
+
+    if [[ -e  ${local_bin} ]]; then
+        if [[ v${NODE_VERSION} = ${node_version} ]]; then
+            echo "NodeJs local will be used"
+            install_node_proxy '/usr/bin/npm'
+            return 0
+        fi
+        echo "NodeJs local old, version: 
+    fi
+
+    if [[ ! -e  ${node_bin} ]]; then
+        echo "NodeJs not installed."
+        install_node
+    else
+        node_version=`${node_bin} -v | tr -d '\n'`
+
+        if [[ v${NODE_VERSION} != ${node_version} ]]; then
+            echo "NodeJs old, version: ${node_version}."
+            install_node
+        else
+            echo "NodeJs up to date, version: ${node_version}."
+        fi
+    fi
+    install_node_proxy
+}
+

@@ -33,6 +33,8 @@ LIBTOOL_VERSION='2.4.2'
 
 NODE_VERSION='0.6.20' #'0.10.12'
 
+HAPROXY_VERSION="1.5.0"
+
 declare -A PHP_PECL
 declare -A PHP_PECL_CONFIGURE
 PHP_PECL=( ["mongo"]='1.4.1' )
@@ -65,4 +67,6 @@ done
 # Check NodeJS
 #check_node
 
-#source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/deploy
+# Check HaProxy
+
+# Check MySQL
