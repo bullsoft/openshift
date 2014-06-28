@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function check_libtool() {
     local libtool_bin=${ROOT_DIR}/libs/bin/libtool
