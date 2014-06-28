@@ -59,7 +59,7 @@ function check_node() {
             install_node_proxy '/usr/bin/npm'
             return 0
         fi
-        echo "NodeJs local old, version: master
+        echo "NodeJs local old, version: {$node_version}."
     fi
 
     if [[ ! -e  ${node_bin} ]]; then

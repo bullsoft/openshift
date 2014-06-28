@@ -1,25 +1,30 @@
 #!/bin/bash
 
 function install_haproxy() {
-    local pkg=haproxy-${NODE_VERSION}.tar.gz
+    local pkg=haproxy-${HAPROXY_VERSION}.tar.gz
 
     mkdir -p ${BUILD_DIR}
     pushd ${BUILD_DIR}
 
-    echo "Downloading ${pkg}."
-    wget http://bcs.duapp.com/instcar-vedio/haproxy/${pkg}
+    if [ ! -f ${pkg} ]; then
+	echo "Downloading ${pkg}."
+	wget http://bcs.duapp.com/instcar-vedio/haproxy/${pkg}
+    fi
 
-    echo "Unpacking ${pkg}."
-    tar xfz ${pkg}
-    pushd ${pkg}
-
+    if [ ! -d haproxy-${HAPROXY_VERSION} ]; then
+	echo "Unpacking ${pkg}."
+	tar xfz ${pkg}
+    fi
+    
+    pushd haproxy-${HAPROXY_VERSION}
+    
     echo "Configuring HaProxy."
     make \
-       TARGET=linux26
+       TARGET=linux26 
 
-    echo "Compiling NodeJs."
+    echo "Compiling HaProxy."
     make install \
-       TARGET=${ROOT_DIR}/haproxy/
+       PREFIX=${ROOT_DIR}/haproxy/
 
     echo "Cleaning build directory."
     popd
@@ -30,30 +35,28 @@ function install_haproxy() {
 function check_haproxy() {
     local local_bin=/usr/bin/haproxy
     local haproxy_bin=${ROOT_DIR}/haproxy/sbin/haproxy
-    local haproxy_version=`${local_bin} -v | grep -Eo '[0-9]\.[0-9]\.[0-9]'`
 
     if [[ -e  ${local_bin} ]]; then
-        if [[ v${NODE_VERSION} = ${node_version} ]]; then
-            echo "NodeJs local will be used"
-            install_node_proxy '/usr/bin/npm'
+	local haproxy_version=`${local_bin} -v | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'`
+        if [[ ${HAPROXY_VERSION} = ${haproxy_version} ]]; then
+            echo "HaProxy local will be used"
             return 0
         fi
-        echo "NodeJs local old, version: 
+        echo "HaProxy local old, version: ${haproxy_version}."
     fi
 
-    if [[ ! -e  ${node_bin} ]]; then
-        echo "NodeJs not installed."
-        install_node
+    if [[ ! -e  ${haproxy_bin} ]]; then
+        echo "HaProxy not installed."
+        install_haproxy
     else
-        node_version=`${node_bin} -v | tr -d '\n'`
+        haproxy_version=`${haproxy_bin} -v | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'`
 
-        if [[ v${NODE_VERSION} != ${node_version} ]]; then
-            echo "NodeJs old, version: ${node_version}."
-            install_node
+        if [[ ${HAPROXY_VERSION} != ${haproxy_version} ]]; then
+            echo "HaProxy old, version: ${haproxy_version}."
+            install_haproxy
         else
-            echo "NodeJs up to date, version: ${node_version}."
+            echo "HaProxy up to date, version: ${haproxy_version}."
         fi
     fi
-    install_node_proxy
 }
 

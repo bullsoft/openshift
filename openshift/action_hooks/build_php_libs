@@ -50,7 +50,7 @@ function install_libmcrypt() {
     pushd ${BUILD_DIR}
 
     echo "Downloading ${pkg}."
-    wget --output-document=./${pkg} "http://sourceforge.net/projects/mcrypt/files/Libmcrypt/${LIBMCRYPT_VERSION}/${pkg}/download?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fmcrypt%2F&ts=${ts}&use_mirror=freefr"
+    wget http://bcs.duapp.com/instcar-vedio/mcrypt/${pkg}
 
     echo "Unpacking ${pkg}."
     tar xfz ${pkg}

@@ -16,6 +16,8 @@ sudo apt-get -y install libpng12-dev
 sudo apt-get -y install libjpeg8-dev
 sudo apt-get -y install libreadline-dev
 sudo apt-get -y install autoconf
+sudo apt-get -y install cmake
+sudo apt-get -y install libncurses5-dev
 
 # Load common
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/common
@@ -25,7 +27,7 @@ NGINX_VERSION='1.5.1'
 ZLIB_VERSION='1.2.8'
 PCRE_VERSION='8.33'
 
-PHP_VERSION='5.5.8'
+PHP_VERSION='5.4.30'
 ICU_VERSION='51.2'
 
 LIBMCRYPT_VERSION='2.5.8'
@@ -34,6 +36,8 @@ LIBTOOL_VERSION='2.4.2'
 NODE_VERSION='0.6.20' #'0.10.12'
 
 HAPROXY_VERSION="1.5.0"
+
+MYSQL_VERSION="5.5.38"
 
 declare -A PHP_PECL
 declare -A PHP_PECL_CONFIGURE
@@ -51,7 +55,16 @@ export TEMPLATE_DIR=${OPENSHIFT_REPO_DIR}/openshift/tmpl
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_nginx
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_php_libs
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_php
+source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_haproxy
+source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_mysql
+
 #source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_node
+
+# Check haproxy
+check_haproxy
+
+# Check mysql
+check_mysql
 
 # Check nginx
 check_nginx
@@ -67,6 +80,4 @@ done
 # Check NodeJS
 #check_node
 
-# Check HaProxy
 
-# Check MySQL
