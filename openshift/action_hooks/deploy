@@ -36,6 +36,22 @@ cp ${TEMPLATE_DIR}/php-fpm.conf.tmpl ${BUILD_DIR}/php-fpm.conf
 perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/php-fpm.conf
 cp ${BUILD_DIR}/php-fpm.conf ${PHP_DIR}/etc/php-fpm.conf
 
+echo "Pre-processing MySQL config."
+cp ${TEMPLATE_DIR}/mysql.cnf.tmpl ${BUILD_DIR}/my.cnf
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/my.cnf
+cp ${BUILD_DIR}/my.cnf ${MYSQL_DIR}/my.cnf
+
+cp ${TEMPLATE_DIR}/mysql.server.tmpl ${BUILD_DIR}/mysql.server
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/mysql.server
+cp ${BUILD_DIR}/mysql.server ${MYSQL_DIR}/mysql.server
+
+if [ ! -d ${OPENSHIFT_RUNTIME_DIR}/mysql/data/mysql ]; then
+    pushd ${MYSQL_DIR}
+    chmod +x mysql.server
+    ./scripts/mysql_install_db --defaults-file=${MYSQL_DIR}/my.cnf
+popd
+fi
+
 rm -rf ${BUILD_DIR}
 
 bash_profile=${OPENSHIFT_DATA_DIR}/.bash_profile

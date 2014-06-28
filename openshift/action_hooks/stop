@@ -14,6 +14,16 @@ if [ -f ${OPENSHIFT_RUN_DIR}/php-fpm.pid ];then
     kill -QUIT `cat ${OPENSHIFT_RUN_DIR}/php-fpm.pid`
 fi
 
+echo "Stopping MySQL."
+
+echo ${OPENSHIFT_RUN_DIR}/mysql.sock
+
+if [ -f ${OPENSHIFT_RUN_DIR}/mysql.pid ]; then
+    pushd ${OPENSHIFT_RUNTIME_DIR}/mysql
+    ./mysql.server stop
+    popd
+fi
+
 # Always succeed, otherwise OpenShift declines to run build and start
 # hooks.
 exit 0
