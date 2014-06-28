@@ -16,11 +16,17 @@ fi
 
 echo "Stopping MySQL."
 
-echo ${OPENSHIFT_RUN_DIR}/mysql.sock
-
 if [ -f ${OPENSHIFT_RUN_DIR}/mysql.pid ]; then
     pushd ${OPENSHIFT_RUNTIME_DIR}/mysql
     ./mysql.server stop
+    popd
+fi
+
+echo "Stopping Redis."
+
+if [ -f ${OPENSHIFT_RUN_DIR}/redis_${OPENSHIFT_REDIS_DIR}.pid ]; then
+    pushd ${OPENSHIFT_RUNTIME_DIR}/redis
+    ./redis_${OPENSHIFT_REDIS_PORT} stop
     popd
 fi
 

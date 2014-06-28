@@ -39,6 +39,8 @@ HAPROXY_VERSION="1.5.0"
 
 MYSQL_VERSION="5.5.38"
 
+REDIS_VERSION="2.8.12"
+
 declare -A PHP_PECL
 declare -A PHP_PECL_CONFIGURE
 PHP_PECL=( ["mongo"]='1.4.1' )
@@ -57,8 +59,12 @@ source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_php_libs
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_php
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_haproxy
 source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_mysql
+source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_redis
 
 #source ${OPENSHIFT_REPO_DIR}/openshift/action_hooks/build_node
+
+# Check redis
+check_redis
 
 # Check haproxy
 check_haproxy

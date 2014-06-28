@@ -1,0 +1,64 @@
+#!/bin/bash
+
+function install_redis() {
+    local pkg=redis-${REDIS_VERSION}.tar.gz
+
+    mkdir -p ${BUILD_DIR}
+    mkdir -p ${ROOT_DIR}/etc/redis
+    mkdir -p ${OPENSHIFT_DATA_DIR}/redis/${OPENSHIFT_REDIS_PORT}
+    
+    pushd ${BUILD_DIR}
+
+    if [ ! -f ${pkg} ]; then
+	echo "Downloading ${pkg}."
+	wget http://bcs.duapp.com/instcar-vedio/redis/${pkg}
+    fi
+
+    if [ ! -d redis-${REDIS_VERSION} ]; then
+	echo "Unpacking ${pkg}."
+	tar xfz ${pkg}
+    fi
+    
+    pushd redis-${REDIS_VERSION}
+    
+    echo "Configuring redis."
+    make
+
+    echo "Compiling redis."
+    make install \
+       PREFIX=${ROOT_DIR}/redis/
+
+    echo "Cleaning build directory."
+    popd
+    popd
+    rm -rf ${BUILD_DIR}
+}
+
+function check_redis() {
+    local local_bin=/usr/bin/redis-cli
+    local redis_bin=${ROOT_DIR}/redis/bin/redis-cli
+
+    if [[ -e  ${local_bin} ]]; then
+	local redis_version=`${local_bin} -v | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'`
+        if [[ ${REDIS_VERSION} = ${redis_version} ]]; then
+            echo "Redis local will be used"
+            return 0
+        fi
+        echo "Redis local old, version: ${haproxy_version}."
+    fi
+
+    if [[ ! -e  ${redis_bin} ]]; then
+        echo "Redis not installed."
+        install_redis
+    else
+        redis_version=`${redis_bin} -v | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+'`
+
+        if [[ ${REDIS_VERSION} != ${redis_version} ]]; then
+            echo "redis old, version: ${redis_version}."
+            install_redis
+        else
+            echo "Redis up to date, version: ${redis_version}."
+        fi
+    fi
+}
+

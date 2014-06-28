@@ -8,6 +8,7 @@ BUILD_DIR=${OPENSHIFT_TMP_DIR}/build
 NGINX_DIR=${OPENSHIFT_RUNTIME_DIR}/nginx/
 PHP_DIR=${OPENSHIFT_RUNTIME_DIR}/php5/
 MYSQL_DIR=${OPENSHIFT_RUNTIME_DIR}/mysql/
+REDIS_DIR=${OPENSHIFT_RUNTIME_DIR}/redis
 TEMPLATE_DIR=${OPENSHIFT_REPO_DIR}/openshift/tmpl
 
 umask 077
@@ -49,8 +50,22 @@ if [ ! -d ${OPENSHIFT_RUNTIME_DIR}/mysql/data/mysql ]; then
     pushd ${MYSQL_DIR}
     chmod +x mysql.server
     ./scripts/mysql_install_db --defaults-file=${MYSQL_DIR}/my.cnf
-popd
+    popd
 fi
+
+
+echo "Pre-processing Redis config."
+cp ${TEMPLATE_DIR}/redis.conf.tmpl ${BUILD_DIR}/redis.conf
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/redis.conf
+cp ${BUILD_DIR}/redis.conf ${OPENSHIFT_RUNTIME_DIR}/etc/redis/redis_${OPENSHIFT_REDIS_PORT}.conf
+
+cp ${TEMPLATE_DIR}/redis_init_script.tmpl ${BUILD_DIR}/redis_init_script
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/redis_init_script
+cp ${BUILD_DIR}/redis_init_script ${REDIS_DIR}/redis_${OPENSHIFT_REDIS_PORT}
+
+pushd ${REDIS_DIR}
+chmod +x redis_${OPENSHIFT_REDIS_PORT}
+popd
 
 rm -rf ${BUILD_DIR}
 
