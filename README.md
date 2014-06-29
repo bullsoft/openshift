@@ -27,9 +27,7 @@ Then, type these on terminal:
 
 ```bash
 cd ~
-git clone https://github.com/BullSoft/bullsoft.git
-cd bullsoft
-cp -r openshift ~/
+git clone https://github.com/BullSoft/openshift.git
 cd ~/openshift/action_hooks/
 ./build
 
