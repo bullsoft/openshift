@@ -1,6 +1,6 @@
 Port from openshift
 ========
-Only for ubuntu server, 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
+Only for ubuntu server, but not like that - 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
 
 Firstly, add these to your ~/.bashrc
 
