@@ -11,6 +11,8 @@ MYSQL_DIR=${OPENSHIFT_RUNTIME_DIR}/mysql
 
 REDIS_DIR=${OPENSHIFT_RUNTIME_DIR}/redis
 
+HAPROXY_DIR=${OPENSHIFT_RUNTIME_DIR}/haproxy
+
 echo "Starting nginx."
 ${OPENSHIFT_RUNTIME_DIR}/nginx/sbin/nginx
 
@@ -25,4 +27,9 @@ popd
 echo "Starting Redis."
 pushd ${REDIS_DIR}
 ./redis_${OPENSHIFT_REDIS_PORT} start
+popd
+
+echo "Starting Haproxy."
+pushd ${HAPROXY_DIR}
+sudo ./sbin/haproxy -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy/haproxy.conf -p ${OPENSHIFT_RUN_DIR}/haproxy.pid
 popd

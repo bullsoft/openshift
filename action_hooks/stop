@@ -30,6 +30,15 @@ if [ -f ${OPENSHIFT_RUN_DIR}/redis_${OPENSHIFT_REDIS_DIR}.pid ]; then
     popd
 fi
 
+echo "Stopping HaProxy."
+
+if [ -f ${OPENSHIFT_RUN_DIR}/haproxy.pid ]; then
+    pushd ${OPENSHIFT_RUNTIME_DIR}/haproxy
+    sudo ./haproxy.server stop
+    popd
+fi
+
+
 # Always succeed, otherwise OpenShift declines to run build and start
 # hooks.
 exit 0

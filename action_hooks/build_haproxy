@@ -3,6 +3,7 @@
 function install_haproxy() {
     local pkg=haproxy-${HAPROXY_VERSION}.tar.gz
 
+    mkdir -p ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy
     mkdir -p ${BUILD_DIR}
     pushd ${BUILD_DIR}
 

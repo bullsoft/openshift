@@ -1,0 +1,86 @@
+#!/bin/bash
+[ -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy/haproxy.cfg ] || exit 1
+
+RETVAL=0
+
+start() {
+    # check the config file
+    sudo ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -c -q -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy.cfg
+    if [ $? -ne 0 ]; then
+       echo "Errors found in configuration file, check it with '${OPENSHIFT_RUNTIME_DIR}/haproxy/haproxy.server check'."
+       return 1
+    fi
+
+  echo -n "Starting haproxy: "
+  sudo ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -D -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy.cfg -p ${OPENSHIFT_RUN_DIR}/haproxy.pid
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ]
+      echo "haproxy started."
+  return $RETVAL
+}
+
+stop() {
+  echo -n "Stopping haproxy: "
+  kill `cat ${OPENSHIFT_RUN_DIR}/haproxy.pid`
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ] && rm -f ${OPENSHIFT_RUN_DIR}/haproxy.pid
+  echo "haproxy stopped."
+  return $RETVAL
+}
+
+restart() {
+  echo -n "Restarting haproxy: "
+echo
+    # Since stop doesn't do any validation, let's check the config file before we kill the currently running haproxy
+    ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -c -q -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy.cfg
+    if [ $? -ne 0 ]; then
+	echo "Errors found in configuration file, check it with '$BASENAME check'."
+	return 1
+    fi
+    stop
+    start
+  echo -n "haproxy restarted."
+echo
+}
+
+check() {
+  ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -c -q -V -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy.cfg
+}
+
+status() {
+  if [ -f ${OPENSHIFT_RUN_DIR}/haproxy.pid ]; then
+	echo "haproxy appears to be running."
+  else
+      echo "haproxy does not appear to be running."
+  fi
+exit 0
+}
+
+# See how we were called.
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  reload)
+    restart
+    ;;
+  status)
+    status
+    ;;
+  check)
+    check
+    ;;
+  *)
+    echo $"Usage: $BASENAME {start|stop|restart|reload|status|check}"
+    RETVAL=1
+esac
+
+exit $RETVAL

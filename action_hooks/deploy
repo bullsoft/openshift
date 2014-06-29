@@ -9,6 +9,7 @@ NGINX_DIR=${OPENSHIFT_RUNTIME_DIR}/nginx/
 PHP_DIR=${OPENSHIFT_RUNTIME_DIR}/php5/
 MYSQL_DIR=${OPENSHIFT_RUNTIME_DIR}/mysql/
 REDIS_DIR=${OPENSHIFT_RUNTIME_DIR}/redis
+HAPROXY_DIR=${OPENSHIFT_RUNTIME_DIR}/haproxy
 TEMPLATE_DIR=${OPENSHIFT_REPO_DIR}/openshift/tmpl
 
 umask 077
@@ -65,6 +66,20 @@ cp ${BUILD_DIR}/redis_init_script ${REDIS_DIR}/redis_${OPENSHIFT_REDIS_PORT}
 
 pushd ${REDIS_DIR}
 chmod +x redis_${OPENSHIFT_REDIS_PORT}
+popd
+
+
+echo "Pre-processing HaProxy config."
+cp ${TEMPLATE_DIR}/haproxy.conf.tmpl ${BUILD_DIR}/haproxy.conf
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/haproxy.conf
+cp ${BUILD_DIR}/haproxy.conf ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy/haproxy.cfg
+
+cp ${TEMPLATE_DIR}/haproxy.server.tmpl ${BUILD_DIR}/haproxy.server
+perl -p -i -e 's/\$\{([^}]+)\}/defined $ENV{$1} ? $ENV{$1} : $&/eg' ${BUILD_DIR}/haproxy.server
+cp ${BUILD_DIR}/haproxy.server ${OPENSHIFT_RUNTIME_DIR}/haproxy/haproxy.server
+
+pushd ${HAPROXY_DIR}
+chmod +x haproxy.server
 popd
 
 rm -rf ${BUILD_DIR}
