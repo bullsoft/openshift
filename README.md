@@ -43,21 +43,34 @@ cp -r ~/bullsoft/wwwroot ~/
 ```
 ... and the file structure would be like this
 
+
 ```
 .
 ├── log
 │   ├── access.log
 │   ├── error.log
-│   └── php-fpm.log
+│   ├── php-fpm.log
+│   └── redis_6379.log
+├── openshift
+│   ├── action_hooks
+│   ├── README.md
+│   ├── tmpl
+│   └── wwwroot
 ├── run
+│   ├── mysql.pid
+│   ├── mysql.sock
 │   ├── nginx.pid
 │   ├── php-fpm.pid
-│   └── php-fpm.socket
+│   ├── php-fpm.socket
+│   └── redis_6379.pid
 ├── runtime
 │   ├── etc
+│   ├── haproxy
 │   ├── libs
+│   ├── mysql
 │   ├── nginx
-│   └── php5
+│   ├── php5
+│   └── redis
 └── wwwroot
     └── index.php
     
