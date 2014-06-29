@@ -2,7 +2,12 @@ BullSoft Openshift
 ========
 Port from openshift, but not like that, Only for ubuntu server - 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
 
-Firstly, add these to your ~/.bashrc
+To make it faster, I have made a mirror in Baidu BCS for packages here.
+
+
+##INSTALL
+
+###Firstly, add these to your ~/.bashrc
 
 ```bash
 export OPENSHIFT_DIY_DIR=$HOME
@@ -21,9 +26,13 @@ if [ -f ${OPENSHIFT_DATA_DIR}/.bash_profile ]; then
 fi
 ```
 
-To make these effective, you should ```soure ~/.bashrc```.
+To make these effective, you should ```source``` it.
 
-Then, type these on terminal:
+```
+soure ~/.bashrc
+```
+
+###Then, type these on terminal:
 
 ```bash
 cd ~
@@ -36,7 +45,7 @@ cd ~/openshift/action_hooks/
       Maybe you have to type ```password``` to let it continue.
 
 
-Finally, type:
+###Finally, type:
 
 ```bash
 cp -r ~/openshift/wwwroot ~/
