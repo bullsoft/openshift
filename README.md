@@ -1,6 +1,6 @@
-Port from openshift
+BullSoft Openshift
 ========
-Only for ubuntu server, but not like that - 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
+Port from openshift, but not like that, Only for ubuntu server - 'cause we use ```sudo apt-get install``` in ```build``` script for instance.
 
 Firstly, add these to your ~/.bashrc
 
@@ -39,7 +39,7 @@ cd ~/openshift/action_hooks/
 Finally, type:
 
 ```bash
-cp -r ~/bullsoft/wwwroot ~/
+cp -r ~/openshift/wwwroot ~/
 ```
 ... and the file structure would be like this
 
