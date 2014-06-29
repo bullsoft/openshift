@@ -46,7 +46,7 @@ echo
 }
 
 check() {
-  ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -c -q -V -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy.cfg
+  ${OPENSHIFT_RUNTIME_DIR}/haproxy/sbin/haproxy -c -q -V -f ${OPENSHIFT_RUNTIME_DIR}/etc/haproxy/haproxy.cfg
 }
 
 status() {
