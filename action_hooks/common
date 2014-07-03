@@ -1,7 +1,7 @@
 #!/bin/bash
 # Helper functions used by several scripts.
 
-export OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_DIY_DIR}/runtime/
+export OPENSHIFT_RUNTIME_DIR=${OPENSHIFT_DIY_DIR}/local/
 export OPENSHIFT_RUN_DIR=${OPENSHIFT_DIY_DIR}/run/
 export OPENSHIFT_LOG_DIR=${OPENSHIFT_DIY_LOG_DIR}
 export OPENSHIFT_BIN=${OPENSHIFT_RUNTIME_DIR}/bin/
